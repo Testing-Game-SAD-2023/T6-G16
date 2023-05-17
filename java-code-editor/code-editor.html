@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Code-Editor</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="src/codemirror.css">
+    <link rel="stylesheet" href="style-editor.css">
+    <link rel="stylesheet" href="src/show-hint.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="src/index.css">
+    <script src="src/codemirror.js"></script>
+    <script src="src/show-hint.js"></script>
+    <script src="src/java.js"></script>
+    <script src="https://unpkg.com/split.js/dist/split.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="src/closebrackets.js"></script>
+    <script src="src/lint.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/codemirror.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/theme/ayu-mirage.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="http://codemirror.net/theme/monokai.css">
+    <link href=https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js rel="stylesheet" />
+
+
+    <!-- ICONE -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+
+    <!-- TEMI -->
+    <link rel="stylesheet" href="http://codemirror.net/lib/codemirror.css">
+    <link rel="stylesheet" href="http://codemirror.net/theme/3024-day.css">
+    <link rel="stylesheet" href="http://codemirror.net/theme/3024-night.css">
+    <link rel="stylesheet" href="http://codemirror.net/theme/ambiance.css">
+    <link rel="stylesheet" href="http://codemirror.net/theme/base16-dark.css">
+    <link rel="stylesheet" href="http://codemirror.net/theme/base16-light.css">
+    <link rel="stylesheet" href="http://codemirror.net/theme/blackboard.css">
+    <link rel="stylesheet" href="http://codemirror.net/theme/cobalt.css">
+    <link rel="stylesheet" href="http://codemirror.net/theme/eclipse.css">
+    <link rel="stylesheet" href="http://codemirror.net/theme/elegant.css">
+    <link rel="stylesheet" href="http://codemirror.net/theme/erlang-dark.css">
+    <link rel="stylesheet" href="http://codemirror.net/theme/lesser-dark.css">
+    <link rel="stylesheet" href="http://codemirror.net/theme/midnight.css">
+    <link rel="stylesheet" href="http://codemirror.net/theme/monokai.css">
+    <link rel="stylesheet" href="http://codemirror.net/theme/neat.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>CODE-EDITOR</h1>
+    </div>
+
+    <div class="topnav">
+        <a href="javascript:saveTextAsFile()" class="button" title="Save as Java Class">
+            <span class="material-symbols-outlined">
+                save
+            </span>
+        </a>
+        <a href="javascript:newFile()" class="button" title="Load template" id="templ">
+            <span class="material-symbols-outlined">
+                feed
+            </span>
+        </a>
+        <a href="javascript:newFile()" class="button" title="Change theme">
+            <span class="material-symbols-outlined">
+                palette
+            </span>
+        </a>
+    </div>
+
+    </div>
+    <div class="code-codentainer">
+        <div class="editor" style="height: 700px;">
+            <div id="testClass" class="code pa" style="background-color: rgba(245, 245, 220, 0.14);">
+                <h2 style="color:#ffffff;">Class to Test</h2>
+                <div class="class-test"></div>
+                <div class="upload">
+                    <input type="file" title="Upload Class to tests" required onchange="localLoad(this.files);" />
+                </div>
+
+            </div>
+
+            <div id="codeClass" class="code a" style="background-color: rgba(245, 245, 220, 0.14);">
+                <h2 style="color:#ffffff">Test Class</h2>
+                <div class="java-code"></div>
+                
+                <button type="button" class="btn btn-success" onclick="runJava()" title="Run Code">
+                    <span class="material-symbols-outlined">
+                        play_circle
+                    </span>
+                </button>
+                <button type="button" class="btn btn-success" onclick="compileJava()" title="Compile Code">
+                    <span class="material-symbols-outlined">
+                        construction
+                    </span>
+                </button>
+                <button type="button" class="btn btn-success" onclick="compileJava()" title="Debug Code">
+                    <span class="material-symbols-outlined">
+                        grading
+                    </span>
+                </button>
+                <div class="upload">
+                    <input type="file" title="Load template" required onchange="loadTemplate(this.files);" />
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+
+    <section class="output">
+        <ul class="nav nav-tabs" style="background-color:#333;">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" style="background-color:#ffffff;">
+                    <h4>Output</h4>
+                </a>
+            </li>
+        </ul>
+        <div style="background-color: black;">
+            <textarea id="output" name="output" class="w-100" rows="15" style="background-color: grey">
+            </textarea>
+        </div>
+    </section>
+
+    </div>
+    </div>
+    </div>
+</body>
+
+<script>
+
+    Split(['.a', '.pa'])
+
+
+    //editor per visualizzare classe di test
+    var testEditor = CodeMirror(document.querySelector(".editor .code .class-test"), {
+        mode: "text/x-java",
+        tabSize: 4,
+        lineNumbers: true,
+        autoCloseBrackets: true,
+        theme: "ayu-mirage",
+        readOnly:true,
+    });
+    CodeMirror.commands["selectAll"](testEditor);
+    testEditor.setSize("100%", "450px");
+
+    //caricamento classe
+    function localLoad(files) {
+        if (files.length == 1) {
+            document.title = escape(files[0].name);
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                testEditor.setValue(e.target.result);
+            };
+            reader.readAsText(files[0]);
+        }
+    }
+
+    //editor per scrivere classe di test
+
+    var javaEditor = CodeMirror(document.querySelector(".editor .code .java-code"), {
+        mode: "text/x-java",
+        tabSize: 4,
+        lineNumbers: true,
+        autoCloseBrackets: true,
+        theme: "ayu-mirage",
+
+    });
+    // javaEditor.getDoc().setValue("console.log('Hello CodeMirror')");
+    javaEditor.setSize("100%", "450px");
+
+    CodeMirror.commands["selectAll"](javaEditor);
+
+    //caricamento classe
+    function loadTemplate(files) {
+        if (files.length == 1) {
+            document.title = escape(files[0].name);
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                javaEditor.setValue(e.target.result);
+            };
+            reader.readAsText(files[0]);
+        }
+    }
+
+
+   
+    output.value = "Initializing...\n";
+
+    async function main() {
+        /*
+        let pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/" });
+        // Pyodide ready
+        output.value += "Ready!\n";
+        return pyodide;
+        */
+    };
+
+    let pyodideReadyPromise = main();
+
+    function addToOutput(s) {
+        output.value += ">>>" + s + "\n";
+    }
+
+    async function runJava() {
+        //Run code
+    }
+
+    async function compileJava() {
+        //Compilation code
+    }
+
+
+    //  javaEditor.getDoc().setValue()
+
+    //Salvataggio classe java
+    function saveTextAsFile() {
+        var textToWrite = javaEditor.getValue();
+        var textFileAsBlob = new Blob([textToWrite], {
+            type: "text/plain;charset=utf-8"
+        });
+        var fileNameToSaveAs = "testClass.java";
+
+        var downloadLink = document.createElement("a");
+        downloadLink.download = fileNameToSaveAs;
+        downloadLink.innerHTML = "Download File";
+        if (window.webkitURL != null) {
+            // Chrome allows the link to be clicked
+            // without actually adding it to the DOM.
+            downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+        } else {
+            // Firefox requires the link to be added to the DOM
+            // before it can be clicked.
+            downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+            downloadLink.onclick = destroyClickedElement;
+            downloadLink.style.display = "none";
+            document.body.appendChild(downloadLink);
+        }
+
+        downloadLink.click();
+    }
+
+
+    //AutoComplete
+    javaEditor.on("keydown", function (cm, event) {
+        if (!(event.ctrlKey) &&
+            (event.keyCode >= 65 && event.keyCode <= 90) ||
+            (event.keyCode >= 97 && event.keyCode <= 122) ||
+            (event.keyCode >= 46 && event.keyCode <= 57)
+        ) {
+            CodeMirror.commands.autocomplete(cm, null, { completeSingle: false });
+        }
+    });
+
+
+    //create a new file
+    function newFile() {
+       javaEditor.getDoc().setValue('');
+
+    
+    }
+
+
+    function autoFormatSelection() {
+        var range = getSelectedRange();
+        javaEditor.autoFormatRange(range.from, range.to);
+    }
+
+    function commentSelection(isComment) {
+        var range = getSelectedRange(), selStart = javaEditor.getCursor("start");
+        javaEditor.commentRange(isComment, range.from, range.to);
+        javaEditor.setSelection(selStart, javaEditor.getCursor("end"));
+    }
+    document.querySelector("#run-btn").addEventListener("click", function () {
+        let javaCode = javaEditor.getValue();
+        let previewWindow = document.querySelector("#preview-window").contentWindow.document;
+        previewWindow.open();
+        previewWindow.write(javaCode);
+        previewWindow.close();
+    });
+</script>
+
+</html>
