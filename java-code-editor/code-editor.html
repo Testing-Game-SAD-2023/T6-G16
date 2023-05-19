@@ -23,31 +23,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/theme/ayu-mirage.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="http://codemirror.net/theme/monokai.css">
     <link href=https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js rel="stylesheet" />
+    <link rel="stylesheet" href="http://codemirror.net/theme/base16-light.css">
 
 
     <!-- ICONE -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 
-
-    <!-- TEMI -->
-    <link rel="stylesheet" href="http://codemirror.net/lib/codemirror.css">
-    <link rel="stylesheet" href="http://codemirror.net/theme/3024-day.css">
-    <link rel="stylesheet" href="http://codemirror.net/theme/3024-night.css">
-    <link rel="stylesheet" href="http://codemirror.net/theme/ambiance.css">
-    <link rel="stylesheet" href="http://codemirror.net/theme/base16-dark.css">
-    <link rel="stylesheet" href="http://codemirror.net/theme/base16-light.css">
-    <link rel="stylesheet" href="http://codemirror.net/theme/blackboard.css">
-    <link rel="stylesheet" href="http://codemirror.net/theme/cobalt.css">
-    <link rel="stylesheet" href="http://codemirror.net/theme/eclipse.css">
-    <link rel="stylesheet" href="http://codemirror.net/theme/elegant.css">
-    <link rel="stylesheet" href="http://codemirror.net/theme/erlang-dark.css">
-    <link rel="stylesheet" href="http://codemirror.net/theme/lesser-dark.css">
-    <link rel="stylesheet" href="http://codemirror.net/theme/midnight.css">
-    <link rel="stylesheet" href="http://codemirror.net/theme/monokai.css">
-    <link rel="stylesheet" href="http://codemirror.net/theme/neat.css">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 
@@ -68,9 +50,14 @@
                 feed
             </span>
         </a>
-        <a href="javascript:newFile()" class="button" title="Change theme">
+        <a href="javascript:lightTheme()" class="button" title="Light theme">
             <span class="material-symbols-outlined">
-                palette
+                light_mode
+            </span>
+        </a>
+        <a href="javascript:darkTheme()" class="button" title="Dark theme">
+            <span class="material-symbols-outlined">
+                dark_mode
             </span>
         </a>
     </div>
@@ -266,9 +253,20 @@
     //create a new file
     function newFile() {
        javaEditor.getDoc().setValue('');
-
-    
     }
+
+      //light theme
+      function lightTheme() {
+        javaEditor.setOption("theme","default");
+        testEditor.setOption("theme","default");
+    }
+
+    //dark theme
+    function darkTheme() {
+        javaEditor.setOption("theme","ayu-mirage");
+        testEditor.setOption("theme","ayu-mirage");
+    }
+
 
 
     function autoFormatSelection() {
