@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="src/codemirror.css">
+    <link rel="stylesheet" href="src/foldgutter.css">
     <link rel="stylesheet" href="style-editor.css">
     <link rel="stylesheet" href="src/show-hint.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -24,7 +25,10 @@
     <link rel="stylesheet" href="http://codemirror.net/theme/monokai.css">
     <link href=https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js rel="stylesheet" />
     <link rel="stylesheet" href="http://codemirror.net/theme/base16-light.css">
-
+    <script src="src/foldcode.js"></script>
+    <script src="src/brace-fold.js"></script>
+    <script src="src/comment-fold.js"></script>
+    <script src="src/foldgutter.js"></script>
 
     <!-- ICONE -->
     <link rel="stylesheet"
@@ -161,12 +165,22 @@
         lineNumbers: true,
         autoCloseBrackets: true,
         theme: "ayu-mirage",
-
+        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+  foldGutter: true,
+  foldOptions: {
+    rangeFinder: new CodeMirror.fold.combine(CodeMirror.fold.brace, CodeMirror.fold.comment)
+  },
+  extraKeys: {
+    "Ctrl-Q": function(cm) {
+      cm.foldCode(cm.getCursor());
+    }
+  }
     });
     // javaEditor.getDoc().setValue("console.log('Hello CodeMirror')");
     javaEditor.setSize("100%", "450px");
 
     CodeMirror.commands["selectAll"](javaEditor);
+
 
     //caricamento classe
     function loadTemplate(files) {
