@@ -105,9 +105,7 @@
                         grading
                     </span>
                 </button>
-                <div class="upload">
-                    <input type="file" title="Load template" required onchange="loadTemplate(this.files);" />
-                </div>
+    
             </div>
 
 
@@ -141,6 +139,8 @@
     Split(['.a', '.pa'])
 
     var themeSelect = document.getElementById("themeSelect");
+
+    
     //editor per visualizzare classe di test
     var testEditor = CodeMirror(document.querySelector(".editor .code .class-test"), {
         mode: "text/x-java",
@@ -169,8 +169,32 @@
 
     //editor per scrivere classe di test
 
+    //template
+    var javaClass = `public class testClass {
+    
+    private testClass c;
+
+
+    public void setUp() throws Exception { 
+        c = new testClass();
+        assertNotNull(c);
+        } 
+
+    
+    public void tearDown() throws Exception { 
+        c=null;
+        assertNull(c);
+    } 
+
+  // TEST
+  // Write your test class here
+        
+}
+`;
+
     var javaEditor = CodeMirror(document.querySelector(".editor .code .java-code"), {
         mode: "text/x-java",
+        value: javaClass,
         tabSize: 4,
         lineNumbers: true,
         autoCloseBrackets: true,
@@ -206,7 +230,11 @@
 
 
 
-    output.value = "Initializing...\n";
+
+
+
+
+
 
     async function main() {
         /*
@@ -232,7 +260,9 @@
     }
 
 
-    //  javaEditor.getDoc().setValue()
+
+
+
 
     //Salvataggio classe java
     function saveTextAsFile() {
