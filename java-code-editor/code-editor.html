@@ -21,7 +21,6 @@
     <script src="src/closebrackets.js"></script>
     <script src="src/lint.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/codemirror.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/theme/ayu-mirage.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="http://codemirror.net/theme/monokai.css">
     <link href=https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js rel="stylesheet" />
     <link rel="stylesheet" href="http://codemirror.net/theme/base16-light.css">
@@ -34,6 +33,12 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 
+    <!---TEMI -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/theme/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/theme/3024-day.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/theme/3024-night.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/theme/ambiance.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/theme/ayu-mirage.min.css" rel="stylesheet" />
 
 </head>
 
@@ -54,16 +59,19 @@
                 feed
             </span>
         </a>
-        <a href="javascript:lightTheme()" class="button" title="Light theme">
-            <span class="material-symbols-outlined">
-                light_mode
-            </span>
-        </a>
-        <a href="javascript:darkTheme()" class="button" title="Dark theme">
-            <span class="material-symbols-outlined">
-                dark_mode
-            </span>
-        </a>
+
+        <div class="select">
+            <select name="theme" id="themeSelect">
+                <option selected disabled>Choose a theme...</option>
+                <option value="default">Default</option>
+                <option value="3024-day">3024 Day</option>
+                <option value="3024-night">3024 Night</option>
+                <option value="ambiance">Ambiance</option>
+                <option value="ayu-mirage">Ayu-mirage</option>
+            </select>
+        </div>
+
+
     </div>
 
     </div>
@@ -81,7 +89,7 @@
             <div id="codeClass" class="code a" style="background-color: rgba(245, 245, 220, 0.14);">
                 <h2 style="color:#ffffff">Test Class</h2>
                 <div class="java-code"></div>
-                
+
                 <button type="button" class="btn btn-success" onclick="runJava()" title="Run Code">
                     <span class="material-symbols-outlined">
                         play_circle
@@ -132,16 +140,17 @@
 
     Split(['.a', '.pa'])
 
-
+    var themeSelect = document.getElementById("themeSelect");
     //editor per visualizzare classe di test
     var testEditor = CodeMirror(document.querySelector(".editor .code .class-test"), {
         mode: "text/x-java",
         tabSize: 4,
         lineNumbers: true,
         autoCloseBrackets: true,
-        theme: "ayu-mirage",
-        readOnly:true,
+        theme: "themeSelect.value",
+        readOnly: true,
     });
+
     CodeMirror.commands["selectAll"](testEditor);
     testEditor.setSize("100%", "450px");
 
@@ -157,7 +166,7 @@
         }
     }
 
-    
+
     //editor per scrivere classe di test
 
     var javaEditor = CodeMirror(document.querySelector(".editor .code .java-code"), {
@@ -165,17 +174,17 @@
         tabSize: 4,
         lineNumbers: true,
         autoCloseBrackets: true,
-        theme: "ayu-mirage",
+        theme: "themeSelect.value",
         gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-  foldGutter: true,
-  foldOptions: {
-    rangeFinder: new CodeMirror.fold.combine(CodeMirror.fold.brace, CodeMirror.fold.comment)
-  },
-  extraKeys: {
-    "Ctrl-Q": function(cm) {
-      cm.foldCode(cm.getCursor());
-    }
-  }
+        foldGutter: true,
+        foldOptions: {
+            rangeFinder: new CodeMirror.fold.combine(CodeMirror.fold.brace, CodeMirror.fold.comment)
+        },
+        extraKeys: {
+            "Ctrl-Q": function (cm) {
+                cm.foldCode(cm.getCursor());
+            }
+        }
     });
     // javaEditor.getDoc().setValue("console.log('Hello CodeMirror')");
     javaEditor.setSize("100%", "450px");
@@ -196,7 +205,7 @@
     }
 
 
-   
+
     output.value = "Initializing...\n";
 
     async function main() {
@@ -267,21 +276,15 @@
 
     //create a new file
     function newFile() {
-       javaEditor.getDoc().setValue('');
+        javaEditor.getDoc().setValue('');
     }
 
-      //light theme
-      function lightTheme() {
-        javaEditor.setOption("theme","default");
-        testEditor.setOption("theme","default");
-    }
-
-    //dark theme
-    function darkTheme() {
-        javaEditor.setOption("theme","ayu-mirage");
-        testEditor.setOption("theme","ayu-mirage");
-    }
-
+    //select theme
+    themeSelect.addEventListener("change", function () {
+        var selectedTheme = themeSelect.value;
+        testEditor.setOption("theme", selectedTheme);
+        javaEditor.setOption("theme", selectedTheme);
+    });
 
 
     function autoFormatSelection() {
