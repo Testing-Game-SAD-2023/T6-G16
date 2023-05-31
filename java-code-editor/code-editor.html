@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="src/codemirror.css">
+    <link rel="stylesheet" href="src/dialog.css">
     <link rel="stylesheet" href="src/foldgutter.css">
+    <link rel="stylesheet" href="src/error-mark.css">
     <link rel="stylesheet" href="style-editor.css">
     <link rel="stylesheet" href="src/show-hint.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -29,16 +31,31 @@
     <script src="src/brace-fold.js"></script>
     <script src="src/comment-fold.js"></script>
     <script src="src/foldgutter.js"></script>
+    <script src="src/clike.js"></script>
+    <script src="src/dialog.js"></script>
+    <script src="src/search.js"></script>
+    <script src="src/searchcursor.js"></script>
+    <script src="src/dialog.js"></script>
+    <script src="src/jump-to-line.js"></script>
+    <script src="src/match-highlighter.js"></script>
+    <script src="src/java-hint.js"></script>
+
+
+
 
     <!-- ICONE -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-
+        <style>
+            .error {
+              color: red;
+            }
+          </style>
 
 </head>
 
 <body>
-
+    <div id="errorDisplay"></div>
     <div class="header">
         <h1>CODE-EDITOR</h1>
     </div>
@@ -64,6 +81,9 @@
                 dark_mode
             </span>
         </a>
+        <input type="text" id="searchInput">
+            <button onclick="cercaParola()">SEARCH</button>
+            <div id="risultati"></div>
     </div>
 
     </div>
@@ -78,6 +98,8 @@
 
             </div>
 
+            
+            
             <div id="codeClass" class="code a" style="background-color: rgba(245, 245, 220, 0.14);">
                 <h2 style="color:#ffffff">Test Class</h2>
                 <div class="java-code"></div>
@@ -129,7 +151,8 @@
 </body>
 
 <script>
-
+var codeInput = document.getElementById("codeInput");
+    var errorDisplay = document.getElementById("errorDisplay");
     Split(['.a', '.pa'])
 
 
@@ -159,7 +182,7 @@
 
     
     //editor per scrivere classe di test
-
+    
     var javaEditor = CodeMirror(document.querySelector(".editor .code .java-code"), {
         mode: "text/x-java",
         tabSize: 4,
@@ -172,11 +195,70 @@
     rangeFinder: new CodeMirror.fold.combine(CodeMirror.fold.brace, CodeMirror.fold.comment)
   },
   extraKeys: {
-    "Ctrl-Q": function(cm) {
-      cm.foldCode(cm.getCursor());
+        "Ctrl-Q": function(cm) {
+            cm.foldCode(cm.getCursor());
+        }
     }
+});
+    
+// Funzione per abilitare l'autocompletamento Java
+function enableJavaAutocomplete() {
+  CodeMirror.commands.autocomplete = function(cm) {
+    cm.showHint({ hint: CodeMirror.hint.java });
+  };
+}
+
+// Abilita l'autocompletamento Java
+enableJavaAutocomplete();
+
+
+
+
+
+    function cercaParola() {
+  var parolaDaCercare = document.getElementById('searchInput').value;
+  var contenutoEditor = javaEditor.getValue();
+
+  var risultati = [];
+  var regex = new RegExp('\\b' + parolaDaCercare + '\\b', 'g');
+  var match;
+
+  while ((match = regex.exec(contenutoEditor)) !== null) {
+    var posizione = match.index;
+    risultati.push({ posizione: posizione, lunghezza: parolaDaCercare.length });
   }
-    });
+
+  if (risultati.length > 0) {
+    console.log("La parola è stata trovata:", risultati);
+  } else {
+    console.log("La parola non è stata trovata.");
+  }
+}
+
+  
+// Funzione per il controllo degli errori nel codice Java
+function controllaErroriJava(code) {
+  const errori = [];
+
+  // Effettua il controllo degli errori utilizzando espressioni regolari e verifiche di sintassi
+  // Esempio: verifica se il codice contiene una variabile non dichiarata
+  const variabileNonDichiarataRegex = /(\w+)\s*\=\s*\w+\s*\;/g;
+  let match;
+  while ((match = variabileNonDichiarataRegex.exec(codiceJava)) !== null) {
+    const variabile = match[1];
+    const index = match.index;
+    const line = code.substring(0, index).split('\n').length;
+    const column = index - codiceJava.lastIndexOf('\n', index - 1) - 1;
+    const message = `La variabile "${variabile}" non è stata dichiarata.`;
+    errori.push({ row: line, column: column, message: message });
+  }
+
+  // Aggiungi altre verifiche di sintassi per gli errori desiderati
+
+  return errori;
+}
+
+
     // javaEditor.getDoc().setValue("console.log('Hello CodeMirror')");
     javaEditor.setSize("100%", "450px");
 
@@ -195,8 +277,6 @@
         }
     }
 
-
-   
     output.value = "Initializing...\n";
 
     async function main() {
