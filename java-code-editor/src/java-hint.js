@@ -21,7 +21,7 @@ var keywords = [
 var getToken = function(editor, cursor) {
     var token = editor.getTokenAt(cursor);
     if (token.type === 'variable') {
-        // Pos代表光标位置，getTokenAt会取光标之前的单词的token
+        
         var tprop = editor.getTokenAt(Pos(cursor.line, token.start));
         if (tprop.string == '.') {
             token.type = 'property';
@@ -92,19 +92,19 @@ var searchLibrary = function(token, context, libraries, found) {
 };
 
 var searchAnyword = function(token, cursor, found) {
-    var range = 500; // 上下500行
+    var range = 500; 
     var re = /[\w$]+/g;
     var curWord = token.string;
     var editor = this;
 
-    // dir的值为-1和1两种，-1向上搜索，1向下搜索
+
     for (var dir = -1; dir <= 1; dir += 2) {
         var line = cursor.line;
         var endLine = Math.min(Math.max(line + dir * range, editor.firstLine()), editor.lastLine()) + dir;
         for (; line != endLine; line += dir) {
             var text = editor.getLine(line);
             var matches;
-            // 对一行的内容（一行多个单词）会循环匹配，直到为null
+           
             while (matches = re.exec(text)) {
                 var matchedString = matches[0];
                 if (line == cursor.line && matchedString === curWord) continue;
@@ -131,18 +131,18 @@ var getCompletions = function(token, context, editor, cursor) {
         });
 
         if (Object.keys(libraries).length > 0) {
-            searchLibrary.call(editor, token, context, libraries, found); // 查询类库的属性
+            searchLibrary.call(editor, token, context, libraries, found); 
         } else {
-            searchAnyword.call(editor, token, cursor, found); // 查询出现过的单词
+            searchAnyword.call(editor, token, cursor, found);
         }
     } else {
         var grantedSnippets = editor.snippets || defaultSnippets;
         var snippets = snippetStore.search(snippetName => {
             return grantedSnippets.includes(snippetName);
         });
-        searchKeyword.call(editor, token, found); // 查询关键字
-        searchSnippet.call(editor, token, snippets, found); // 查询代码片段
-        searchAnyword.call(editor, token, cursor, found); // 查询出现过的单词
+        searchKeyword.call(editor, token, found);
+        searchSnippet.call(editor, token, snippets, found); 
+        searchAnyword.call(editor, token, cursor, found); 
     }
 
     return found;
@@ -215,7 +215,7 @@ CodeMirror.registerHelper('hint', 'java', function(editor, options) {
             type: token.string == '.' ? 'property' : null
         };
     } else if (token.end > cur.ch) {
-        // 光标在单词中间
+        
         token.end = cur.ch;
         token.string = token.string.slice(0, cur.ch - token.start);
     }
