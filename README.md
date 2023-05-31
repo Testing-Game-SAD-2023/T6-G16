@@ -14,12 +14,9 @@ Requisiti Sull’Editor di Test Case
   - Chiusura automatica delle parentesi
   - Aggiungere console per compilatore 
   - CSS: Realizzazione GUI finale
-  
-  
-## TO-DO - SECONDA ITERAZIONE:
   - Possibilità di cambiare tema
  
-## TO-DO - TERZA ITERAZIONE:
+## TO-DO:
   - Segnalazione errori di sintassi 
   - Evidenziare righe in giallo, verde, rosso (con Jacoco)
   - Collegamento con database per salvataggio e caricamento
