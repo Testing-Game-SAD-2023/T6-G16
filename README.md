@@ -15,14 +15,14 @@ Requisiti Sull’Editor di Test Case
   - Aggiungere console per compilatore 
   - CSS: Realizzazione GUI finale
   - Possibilità di cambiare tema
-  - Code Folding (raggruppare codice)
+  - Code Folding (raggruppare codice) 
+  - Salvataggio versioni (ogni 30 secondi)
+  - dot notation
  
 ## TO-DO:
   - Segnalazione errori di sintassi 
   - Evidenziare righe in giallo, verde, rosso (con Jacoco)
   - Collegamento con database per salvataggio e caricamento
-  - Salvataggio versioni
-  - dot notation
   - Generare getter, setter, toString, ecc
   - Funzione ricerca parole nel codice
   - Salvataggio prima di chiudere o di fare nuovo file
