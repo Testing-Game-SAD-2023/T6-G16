@@ -18,6 +18,7 @@ Requisiti Sull’Editor di Test Case
   - Code Folding (raggruppare codice) 
   - Salvataggio versioni (ogni 30 secondi)
   - dot notation
+  - popup salvataggio prima di chiudere o di fare nuovo file
  
 ## TO-DO:
   - Segnalazione errori di sintassi 
@@ -25,4 +26,4 @@ Requisiti Sull’Editor di Test Case
   - Collegamento con database per salvataggio e caricamento
   - Generare getter, setter, toString, ecc
   - Funzione ricerca parole nel codice
-  - Salvataggio prima di chiudere o di fare nuovo file
+  - Aggiustare css popup creazione di nuovo file
