@@ -75,10 +75,24 @@
                 save
             </span>
         </a>
-        <a href="javascript:newFile()" class="button" title="New Test Class" id="templ">
+        <a class="button" title="New Test Class" id="templ" onclick="showPopup()">
             <span class="material-symbols-outlined">
                 feed
             </span>
+            <div id="popupSave" class="popup">
+                <div style="display: flex;">
+                <div><h2>Saving before creating a new file</h2></div>
+                   <div> <button onclick="hidePopup()" title="Close" style="position:relative">
+                        <span class="material-symbols-outlined">
+                            cancel
+                        </span>
+                    </button>
+                </div>
+                </div>
+                <p>Do you want to save your file before creating a new one?</p>
+                <button onclick="saveFile(); newFile(); hidePopup()">Yes, SAVE!</button>
+                <button onclick="newFile(); hidePopup()">NO, I have already saved!</button>
+            </div>
         </a>
         <a>
             <input type="text" id="searchInput">
@@ -385,8 +399,17 @@
     });
 
 
+    //popup su creazione nuovo file
+    function showPopup() {
+        var popup = document.getElementById("popupSave");
+        popup.classList.toggle("show");
 
+    }
 
+    function hidePopup() {
+        var popup = document.getElementById("popupSave");
+        popup.style.display = "none";
+    }
 
 
     //create a new file
