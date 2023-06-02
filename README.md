@@ -26,4 +26,4 @@ Requisiti Sull’Editor di Test Case
   - Collegamento con database per salvataggio e caricamento
   - Generare getter, setter, toString, ecc
   - Funzione ricerca parole nel codice
-  - Aggiustare css popup creazione di nuovo file
+
