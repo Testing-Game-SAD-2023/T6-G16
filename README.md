@@ -19,11 +19,10 @@ Requisiti Sull’Editor di Test Case
   - Salvataggio versioni (ogni 30 secondi)
   - dot notation
   - popup salvataggio prima di chiudere o di fare nuovo file
+  - Funzione ricerca parole nel codice
  
 ## TO-DO:
   - Segnalazione errori di sintassi 
   - Evidenziare righe in giallo, verde, rosso (con Jacoco)
   - Collegamento con database per salvataggio e caricamento
   - Generare getter, setter, toString, ecc
-  - Funzione ricerca parole nel codice
-
