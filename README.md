@@ -26,4 +26,3 @@ Requisiti Sull’Editor di Test Case
   - Segnalazione errori di sintassi 
   - Evidenziare righe in giallo, verde, rosso (con Jacoco)
   - Collegamento con database per salvataggio e caricamento
-  - Funzioni di compilazione ed esecuzione?
