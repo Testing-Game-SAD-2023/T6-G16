@@ -81,13 +81,15 @@
             </span>
             <div id="popupSave" class="popup">
                 <div style="display: flex;">
-                <div><h2>Saving before creating a new file</h2></div>
-                   <div> <button onclick="hidePopup()" title="Close" style="position:relative">
-                        <span class="material-symbols-outlined">
-                            cancel
-                        </span>
-                    </button>
-                </div>
+                    <div>
+                        <h2>Saving before creating a new file</h2>
+                    </div>
+                    <div> <button onclick="hidePopup()" title="Close" style="position:relative">
+                            <span class="material-symbols-outlined">
+                                cancel
+                            </span>
+                        </button>
+                    </div>
                 </div>
                 <p>Do you want to save your file before creating a new one?</p>
                 <button onclick="saveFile(); newFile(); hidePopup()">Yes, SAVE!</button>
@@ -95,9 +97,9 @@
             </div>
         </a>
         <a>
-            <input type="text" id="searchInput">
-            <button onclick="cercaParola()">SEARCH</button>
-            <div id="risultati"></div>
+            <input type="text" id="searchInput" name="searchInput_randomValue" autocomplete="off">
+            <button id="searchButton" style="background-color: #008CBA;">Search</button>
+            <button id="resetButton" style="background-color: #008CBA;">Reset</button>
         </a>
 
         <div class="select">
@@ -332,13 +334,6 @@
         var textFileAsBlob = new Blob([textToWrite], {
             type: "text/plain;charset=utf-8"
         });
-
-        // Get the current date and time
-        // var now = new Date();
-        //   var dateTime = now.toISOString().replace(/[-:.]/g, "");
-        //var fileNameToSaveAs = "testClass.java";
-        // Generate the filename with date and time
-
         var currentdate = new Date();
         var datetime = "testClass" + currentdate.getDate() + "_"
             + (currentdate.getMonth() + 1) + "_"
@@ -417,23 +412,59 @@
         javaEditor.getDoc().setValue(javaClass);
     }
 
-    function autoFormatSelection() {
-        var range = getSelectedRange();
-        javaEditor.autoFormatRange(range.from, range.to);
+    //cerca parola
+    var searchInput = document.getElementById("searchInput");
+    var searchButton = document.getElementById("searchButton");
+    var resetButton = document.getElementById("resetButton");
+    var searchOverlay = null;
+
+    searchButton.addEventListener("click", function () {
+        performSearch();
+    });
+
+    resetButton.addEventListener("click", function () {
+        resetSearch();
+    });
+
+    function performSearch() {
+        var searchTerm = searchInput.value;
+        javaEditor.focus();
+        testEditor.focus();
+        
+
+        if (searchOverlay) {
+            javaEditor.removeOverlay(searchOverlay);
+            testEditor.removeOverlay(searchOverlay);
+            searchOverlay = null;
+        }
+
+        if (searchTerm) {
+            searchOverlay = {
+                token: function (stream) {
+                    if (stream.match(searchTerm)) return "searching";
+                    while (stream.next() && !stream.match(searchTerm, false)) { }
+                }
+            };
+
+            javaEditor.addOverlay(searchOverlay, { opaque: true });
+            testEditor.addOverlay(searchOverlay, { opaque: true });
+        }
     }
 
-    function commentSelection(isComment) {
-        var range = getSelectedRange(), selStart = javaEditor.getCursor("start");
-        javaEditor.commentRange(isComment, range.from, range.to);
-        javaEditor.setSelection(selStart, javaEditor.getCursor("end"));
+    function resetSearch() {
+        javaEditor.focus();
+        testEditor.focus();
+        javaEditor.removeOverlay("search");
+        testEditor.removeOverlay("search");
+        searchInput.value = "";
+        if (searchOverlay) {
+            javaEditor.removeOverlay(searchOverlay);
+            testEditor.removeOverlay(searchOverlay);
+            searchOverlay = null;
+        }
     }
-    document.querySelector("#run-btn").addEventListener("click", function () {
-        let javaCode = javaEditor.getValue();
-        let previewWindow = document.querySelector("#preview-window").contentWindow.document;
-        previewWindow.open();
-        previewWindow.write(javaCode);
-        previewWindow.close();
-    });
+
+
 </script>
 
 </html>
