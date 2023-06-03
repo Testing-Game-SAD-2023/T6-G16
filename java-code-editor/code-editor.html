@@ -97,7 +97,7 @@
             </div>
         </a>
         <a>
-            <button id="generateButton" style="background-color: #008CBA;">Generate Getter and Setter</button>
+            <button id="generateButton" style="background-color: #008CBA;">Generate Getter, Setter and toString</button>
         </a>
         <a>
             <input type="text" id="searchInput" name="searchInput_randomValue" autocomplete="off">
@@ -469,39 +469,39 @@
 
     //generazione getter e setter
     var generateButton = document.getElementById("generateButton");
-  generateButton.addEventListener("click", function() {
-    generateGetterSetter();
-  });
+    generateButton.addEventListener("click", function () {
+        generateMethods();
+    });
 
-  function generateGetterSetter() {
-    var value = javaEditor.getValue();
+    function generateMethods() {
+        var value = javaEditor.getValue();
 
-    var lines = value.split("\n");
-    var generatedCode = "";
+        var lines = value.split("\n");
+        var generatedCode = "";
 
-    for (var i = 0; i < lines.length; i++) {
-      var line = lines[i].trim();
-      if (line !== "") {
-        var parts = line.split(" ");
-        if (parts.length === 2) {
-          var variableName = parts[1].replace(";", "");
-          var capitalizedVariableName = variableName.charAt(0).toUpperCase() + variableName.slice(1);
+        for (var i = 0; i < lines.length; i++) {
+            var line = lines[i].trim();
+            if (line !== "") {
+                var parts = line.split(" ");
+                if (parts.length === 2) {
+                    var variableName = parts[1].replace(";", "");
+                    var capitalizedVariableName = variableName.charAt(0).toUpperCase() + variableName.slice(1);
 
-          var getterCode = "public " + parts[0] + " get" + capitalizedVariableName + "() {\n  return " + variableName + ";\n}";
-          var setterCode = "public void set" + capitalizedVariableName + "(" + parts[0] + " " + variableName + ") {\n  this." + variableName + " = " + variableName + ";\n}";
+                    var getterCode = "public " + parts[0] + " get" + capitalizedVariableName + "() {\n  return " + variableName + ";\n}";
+                    var setterCode = "public void set" + capitalizedVariableName + "(" + parts[0] + " " + variableName + ") {\n  this." + variableName + " = " + variableName + ";\n}";
 
-          generatedCode += getterCode + "\n\n" + setterCode + "\n\n";
+                    generatedCode += getterCode + "\n\n" + setterCode + "\n\n";
+                }
+            }
         }
-      }
+
+        generatedCode += "public String toString() {\n";
+        generatedCode += "  return \"here is the string to print\";\n";
+        generatedCode += "}";
+
+        var currentCode = javaEditor.getValue();
+        javaEditor.setValue(currentCode + "\n\n" + generatedCode);
     }
-
-    var currentCode = javaEditor.getValue();
-    javaEditor.setValue(currentCode + "\n\n" + generatedCode);
-  }
-
-
-
-
 
 </script>
 
