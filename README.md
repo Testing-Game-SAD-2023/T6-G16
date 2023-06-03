@@ -20,9 +20,9 @@ Requisiti Sull’Editor di Test Case
   - dot notation
   - popup salvataggio prima di chiudere o di fare nuovo file
   - Funzione ricerca parole nel codice
+  - Generare getter, setter, toString
  
 ## TO-DO:
   - Segnalazione errori di sintassi 
   - Evidenziare righe in giallo, verde, rosso (con Jacoco)
   - Collegamento con database per salvataggio e caricamento
-  - Generare getter, setter, toString, ecc
