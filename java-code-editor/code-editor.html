@@ -39,6 +39,16 @@
     <script src="src/jump-to-line.js"></script>
     <script src="src/match-highlighter.js"></script>
     <script src="src/java-hint.js"></script>
+    <script src="src/javascript-lint.js"></script>
+    <!-- File CSS per ESLint -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/eslint/7.32.0/eslint.min.css">
+
+<!-- File JavaScript per ESLint -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/eslint/7.32.0/eslint.min.js"></script>
+
+<!-- File JavaScript per il parser ESLint per Java -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/eslint-plugin-java/1.10.0/visitor.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/eslint-plugin-java/1.10.0/parser.js"></script>
 
 
     <!-- ICONE -->
@@ -465,6 +475,48 @@
             searchOverlay = null;
         }
     }
+
+
+// Funzione per controllare gli errori di sintassi
+var eslint = new ESLint();
+
+function checkSyntax() {
+  var code = javaEditor.getValue();
+
+  eslint.lintText(code).then(function (result) {
+    clearErrors();
+
+    result.forEach(function (error) {
+      highlightErrorLine(error.line);
+      showError(error);
+    });
+  });
+}
+
+function clearErrors() {
+  var errorLines = document.getElementsByClassName("error-line");
+  Array.from(errorLines).forEach(function (line) {
+    line.classList.remove("error-line");
+  });
+
+  var errorContainer = document.getElementById("error-container");
+  errorContainer.innerHTML = "";
+}
+
+function highlightErrorLine(lineNumber) {
+  var lineElement = editor.getLineHandle(lineNumber - 1);
+  lineElement.className += " error-line";
+}
+
+function showError(error) {
+  var errorContainer = document.getElementById("error-container");
+
+  var errorMessage = document.createElement("p");
+  errorMessage.innerText = `Line ${error.line}: ${error.message}`;
+  errorContainer.appendChild(errorMessage);
+}
+
+
 
     //generazione getter e setter
     var generateButton = document.getElementById("generateButton");
