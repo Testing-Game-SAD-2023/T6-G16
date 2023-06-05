@@ -165,3 +165,19 @@ select::-ms-expand {
   z-index: 9999;
 }
 
+.highlighted-yellow {
+  background-color: #ffff00; /* Customize the background color as needed */
+}
+
+.highlighted-red {
+  background-color: #ff0000; /* Customize the background color as needed */
+}
+
+.highlighted-green {
+  background-color: #80ff00; /* Customize the background color as needed */
+}
+
+#buttonContainer {
+  display: flex;
+  gap: 10px;
+}
