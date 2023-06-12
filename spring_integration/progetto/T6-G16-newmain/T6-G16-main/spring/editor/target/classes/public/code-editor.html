@@ -124,12 +124,10 @@
                 <h2 style="color:#ffffff;">Class to Test</h2>
                 <div class="class-test"></div>
                 
-                <div id="buttonContainer">
-                    <div class="upload">
-                        <input type="file" title="Upload Class to tests" required onchange="localLoad(this.files);" />
-                    </div>
+
+
                     <button onclick="highlightLines()">Highlight Covered Lines</button>
-                </div>
+
 
             </div>
 
@@ -189,16 +187,31 @@
 
     var themeSelect = document.getElementById("themeSelect");
 
+    const urlParams = new URLSearchParams(window.location.search);
+const myParamValue = urlParams.get('myParam');
+
+var testClass;
+
+fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
+  .then(response => response.text())
+  .then(data => {
+    const testClass = data;
+
+
 
     //editor per visualizzare classe di test
     var testEditor = CodeMirror(document.querySelector(".editor .code .class-test"), {
         mode: "text/x-java",
+        value: testClass,
         tabSize: 4,
         lineNumbers: true,
         autoCloseBrackets: true,
         theme: "themeSelect.value",
         readOnly: true,
     });
+})
+  .catch(error => console.error(error));
+
     CodeMirror.commands["selectAll"](testEditor);
     testEditor.setSize("100%", "450px");
 
@@ -307,22 +320,6 @@
     });
 
 
-
-
-    async function main() {
-        /*
-        let pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/" });
-        // Pyodide ready
-        output.value += "Ready!\n";
-        return pyodide;
-        */
-    };
-
-    let pyodideReadyPromise = main();
-
-    function addToOutput(s) {
-        output.value += ">>>" + s + "\n";
-    }
 
     async function runJava() {
         //Run code
