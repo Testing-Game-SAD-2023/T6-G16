@@ -1,6 +1,6 @@
 # Cartelle
-- La cartella __spring__ contiene il componente Editor senza integrazione con i task
-- La cartella __integration__ contiene il progetto con le modifiche necessarie per integrare il componente con gli altri task
+- La cartella _spring_ contiene il componente Editor senza integrazione con i task
+- La cartella _integration_ contiene il progetto con le modifiche necessarie per integrare il componente con gli altri task
 
 
 
