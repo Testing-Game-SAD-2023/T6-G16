@@ -21,8 +21,11 @@ Requisiti Sull’Editor di Test Case
   - popup salvataggio prima di chiudere o di fare nuovo file
   - Funzione ricerca parole nel codice
   - Generare getter, setter, toString
+
+
+  - Collegamanto caricamento classe con task T5-G5
  
 ## TO-DO:
-  - Segnalazione errori di sintassi 
   - Evidenziare righe in giallo, verde, rosso (con Jacoco)
-  - Collegamento con database per salvataggio e caricamento
+  - Collegamento con database per salvataggio classe con task T4
+  - Collegamento compilazione ed esecuzione con task T7
