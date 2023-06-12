@@ -123,14 +123,8 @@
             <div id="testClass" class="code pa" style="background-color: rgba(245, 245, 220, 0.14);">
                 <h2 style="color:#ffffff;">Class to Test</h2>
                 <div class="class-test"></div>
-                
-                <div id="buttonContainer">
-                    <div class="upload">
-                        <input type="file" title="Upload Class to tests" required onchange="localLoad(this.files);" />
-                    </div>
                     <button onclick="highlightLines()">Highlight Covered Lines</button>
-                </div>
-
+              
             </div>
 
 
@@ -354,21 +348,6 @@ fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
 
 
 
-
-    async function main() {
-        /*
-        let pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/" });
-        // Pyodide ready
-        output.value += "Ready!\n";
-        return pyodide;
-        */
-    };
-
-    let pyodideReadyPromise = main();
-
-    function addToOutput(s) {
-        output.value += ">>>" + s + "\n";
-    }
 
     async function runJava() {
         //Run code
