@@ -123,8 +123,14 @@
             <div id="testClass" class="code pa" style="background-color: rgba(245, 245, 220, 0.14);">
                 <h2 style="color:#ffffff;">Class to Test</h2>
                 <div class="class-test"></div>
+                
+                <div id="buttonContainer">
+                    <div class="upload">
+                        <input type="file" title="Upload Class to tests" required onchange="localLoad(this.files);" />
+                    </div>
                     <button onclick="highlightLines()">Highlight Covered Lines</button>
-              
+                </div>
+
             </div>
 
 
@@ -182,12 +188,8 @@
     Split(['.a', '.pa'])
 
     var themeSelect = document.getElementById("themeSelect");
-    const queryString = window.location.search;
 
 
-const urlParams = new URLSearchParams(window.location.search);
-const myParamValue = urlParams.get('myParam');
-console.log("we",myParamValue);
     //editor per visualizzare classe di test
     var testEditor = CodeMirror(document.querySelector(".editor .code .class-test"), {
         mode: "text/x-java",
@@ -216,19 +218,7 @@ console.log("we",myParamValue);
     //editor per scrivere classe di test
 
     //template
-    /*
-   
-
-    fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
-  .then(response => response.text())
-  .then(data => {
-    const javaClass = data;
-    console.log(javaClass);
-    // qui puoi utilizzare javaClass come desideri
-  })
-  .catch(error => console.error(error));
-*/
-    /* = `public class testClass {
+    var javaClass = `public class testClass {
     
     private testClass c;
 
@@ -248,38 +238,8 @@ console.log("we",myParamValue);
   // Write your test class here
         
 }
-`;*/
- var javaClass;
+`;
 
-fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
-  .then(response => response.text())
-  .then(data => {
-    const javaClass = data;
-    console.log(javaClass);
-    // qui puoi utilizzare javaClass come desideri
-
-    const javaEditor = CodeMirror(document.querySelector(".editor .code .java-code"), {
-        mode: "text/x-java",
-        value: javaClass,
-        tabSize: 4,
-        lineNumbers: true,
-        autoCloseBrackets: true,
-        theme: "themeSelect.value",
-        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter","CodeMirror-lint-markers"],
-        lint: true,
-        foldGutter: true,
-        foldOptions: {
-            rangeFinder: new CodeMirror.fold.combine(CodeMirror.fold.brace, CodeMirror.fold.comment)
-        },
-        extraKeys: {
-            "Ctrl-Q": function (cm) {
-                cm.foldCode(cm.getCursor());
-            }
-        }
-    });
-  })
-  .catch(error => console.error(error));
-/*
     var javaEditor = CodeMirror(document.querySelector(".editor .code .java-code"), {
         mode: "text/x-java",
         value: javaClass,
@@ -299,7 +259,7 @@ fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
             }
         }
     });
-*/
+
     // Funzione per abilitare l'autocompletamento Java
     function enableJavaAutocomplete() {
         CodeMirror.commands.autocomplete = function (cm) {
@@ -348,6 +308,21 @@ fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
 
 
 
+
+    async function main() {
+        /*
+        let pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/" });
+        // Pyodide ready
+        output.value += "Ready!\n";
+        return pyodide;
+        */
+    };
+
+    let pyodideReadyPromise = main();
+
+    function addToOutput(s) {
+        output.value += ">>>" + s + "\n";
+    }
 
     async function runJava() {
         //Run code
@@ -423,9 +398,8 @@ fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
             return message;
         }
     });
-    localStorage.setItem('numero', '5');
-    const storedClass = localStorage.getItem('selectedClass');
-    console.log("test",storedClass);
+
+
     //popup su creazione nuovo file
     function showPopup() {
         var popup = document.getElementById("popupSave");
