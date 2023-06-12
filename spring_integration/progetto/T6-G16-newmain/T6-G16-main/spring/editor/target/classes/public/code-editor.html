@@ -123,10 +123,10 @@
             <div id="testClass" class="code pa" style="background-color: rgba(245, 245, 220, 0.14);">
                 <h2 style="color:#ffffff;">Class to Test</h2>
                 <div class="class-test"></div>
-                
 
 
-                    <button onclick="highlightLines()">Highlight Covered Lines</button>
+
+                <button onclick="highlightLines()">Highlight Covered Lines</button>
 
 
             </div>
@@ -185,32 +185,31 @@
     var errorDisplay = document.getElementById("errorDisplay");
     Split(['.a', '.pa'])
 
+
     var themeSelect = document.getElementById("themeSelect");
+    const queryString = window.location.search;
 
     const urlParams = new URLSearchParams(window.location.search);
-const myParamValue = urlParams.get('myParam');
-
-var testClass;
-
-fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
-  .then(response => response.text())
-  .then(data => {
-    const testClass = data;
-
-
-
-    //editor per visualizzare classe di test
-    var testEditor = CodeMirror(document.querySelector(".editor .code .class-test"), {
-        mode: "text/x-java",
-        value: testClass,
-        tabSize: 4,
-        lineNumbers: true,
-        autoCloseBrackets: true,
-        theme: "themeSelect.value",
-        readOnly: true,
-    });
-})
-  .catch(error => console.error(error));
+    const myParamValue = urlParams.get('myParam');
+   
+    var testClass;
+    fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
+        .then(response => response.text())
+        .then(data => {
+            const testClass = data;
+       
+            //editor per visualizzare classe di test
+            const testEditor = CodeMirror(document.querySelector(".editor .code .class-test"), {
+                mode: "text/x-java",
+                value: testClass,
+                tabSize: 4,
+                lineNumbers: true,
+                autoCloseBrackets: true,
+                theme: "themeSelect.value",
+                readOnly: true,
+            });
+        })
+        .catch(error => console.error(error));
 
     CodeMirror.commands["selectAll"](testEditor);
     testEditor.setSize("100%", "450px");
@@ -260,7 +259,7 @@ fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
         lineNumbers: true,
         autoCloseBrackets: true,
         theme: "themeSelect.value",
-        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter","CodeMirror-lint-markers"],
+        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter", "CodeMirror-lint-markers"],
         lint: true,
         foldGutter: true,
         foldOptions: {
@@ -504,12 +503,12 @@ fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
     }
 
 
-   
 
-    
+
+
     //evidenziare righe
     function highlightLines() {
-    
+
 
         const startLineY = 32; // Start line number
         const endLineY = 34; // End line number
@@ -531,7 +530,7 @@ fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
             { className: 'highlighted-green' } // CSS class to apply
         );
 
-        const startLineR =43; // Start line number
+        const startLineR = 43; // Start line number
         const endLineR = 51; // End line number
 
         // Apply highlighting to the range of lines
@@ -574,10 +573,10 @@ fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
         });
     }); 
     */
-   
 
 
-    
+
+
 </script>
 
 </html>
