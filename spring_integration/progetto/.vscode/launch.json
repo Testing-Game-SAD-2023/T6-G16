@@ -1,0 +1,35 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-EditorApplication<editor>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.taskt6.editor.EditorApplication",
+            "projectName": "editor",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-StudentsystemApplication<studentsystem>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.arjuncodes.studentsystem.StudentsystemApplication",
+            "projectName": "studentsystem",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=53916 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=studentsystem"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ClassUtRepositoryApplication<classut_repo>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "org.sad.classUTrepository.ClassUtRepositoryApplication",
+            "projectName": "classut_repo",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
