@@ -123,13 +123,10 @@
             <div id="testClass" class="code pa" style="background-color: rgba(245, 245, 220, 0.14);">
                 <h2 style="color:#ffffff;">Class to Test</h2>
                 <div class="class-test"></div>
-                
-                <div id="buttonContainer">
-                    <div class="upload">
-                        <input type="file" title="Upload Class to tests" required onchange="localLoad(this.files);" />
-                    </div>
-                    <button onclick="highlightLines()">Highlight Covered Lines</button>
-                </div>
+
+
+                <button onclick="highlightLines()">Highlight Covered Lines</button>
+
 
             </div>
 
@@ -191,50 +188,11 @@
     const queryString = window.location.search;
 
 
-const urlParams = new URLSearchParams(window.location.search);
-const myParamValue = urlParams.get('myParam');
-console.log("we",myParamValue);
-    //editor per visualizzare classe di test
-    var testEditor = CodeMirror(document.querySelector(".editor .code .class-test"), {
-        mode: "text/x-java",
-        tabSize: 4,
-        lineNumbers: true,
-        autoCloseBrackets: true,
-        theme: "themeSelect.value",
-        readOnly: true,
-    });
-    CodeMirror.commands["selectAll"](testEditor);
-    testEditor.setSize("100%", "450px");
+    const urlParams = new URLSearchParams(window.location.search);
+    const myParamValue = urlParams.get('myParam');
+    
 
-    //caricamento classe
-    function localLoad(files) {
-        if (files.length == 1) {
-            document.title = escape(files[0].name);
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                testEditor.setValue(e.target.result);
-            };
-            reader.readAsText(files[0]);
-        }
-    }
-
-
-    //editor per scrivere classe di test
-
-    //template
-    /*
-   
-
-    fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
-  .then(response => response.text())
-  .then(data => {
-    const javaClass = data;
-    console.log(javaClass);
-    // qui puoi utilizzare javaClass come desideri
-  })
-  .catch(error => console.error(error));
-*/
-    /* = `public class testClass {
+    var javaClass = `public class testClass {
     
     private testClass c;
 
@@ -254,15 +212,7 @@ console.log("we",myParamValue);
   // Write your test class here
         
 }
-`;*/
- var javaClass;
-
-fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
-  .then(response => response.text())
-  .then(data => {
-    const javaClass = data;
-    console.log(javaClass);
-    // qui puoi utilizzare javaClass come desideri
+`;
 
     const javaEditor = CodeMirror(document.querySelector(".editor .code .java-code"), {
         mode: "text/x-java",
@@ -271,7 +221,7 @@ fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
         lineNumbers: true,
         autoCloseBrackets: true,
         theme: "themeSelect.value",
-        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter","CodeMirror-lint-markers"],
+        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter", "CodeMirror-lint-markers"],
         lint: true,
         foldGutter: true,
         foldOptions: {
@@ -283,29 +233,66 @@ fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
             }
         }
     });
-  })
-  .catch(error => console.error(error));
-/*
-    var javaEditor = CodeMirror(document.querySelector(".editor .code .java-code"), {
-        mode: "text/x-java",
-        value: javaClass,
-        tabSize: 4,
-        lineNumbers: true,
-        autoCloseBrackets: true,
-        theme: "themeSelect.value",
-        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter","CodeMirror-lint-markers"],
-        lint: true,
-        foldGutter: true,
-        foldOptions: {
-            rangeFinder: new CodeMirror.fold.combine(CodeMirror.fold.brace, CodeMirror.fold.comment)
-        },
-        extraKeys: {
-            "Ctrl-Q": function (cm) {
-                cm.foldCode(cm.getCursor());
-            }
+
+
+
+    //caricamento classe
+    function localLoad(files) {
+        if (files.length == 1) {
+            document.title = escape(files[0].name);
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                testEditor.setValue(e.target.result);
+            };
+            reader.readAsText(files[0]);
         }
-    });
-*/
+    }
+
+
+    var testClass;
+
+    fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
+        .then(response => response.text())
+        .then(data => {
+            const testClass = data;
+            console.log(testClass);
+            // qui puoi utilizzare javaClass come desideri
+            //editor per visualizzare classe di test
+            var testEditor = CodeMirror(document.querySelector(".editor .code .class-test"), {
+                mode: "text/x-java",
+                value: testClass,
+                tabSize: 4,
+                lineNumbers: true,
+                autoCloseBrackets: true,
+                theme: "themeSelect.value",
+                readOnly: true,
+            });
+            CodeMirror.commands["selectAll"](testEditor);
+            testEditor.setSize("100%", "450px");
+
+        })
+        .catch(error => console.error(error));
+    /*
+        var javaEditor = CodeMirror(document.querySelector(".editor .code .java-code"), {
+            mode: "text/x-java",
+            value: javaClass,
+            tabSize: 4,
+            lineNumbers: true,
+            autoCloseBrackets: true,
+            theme: "themeSelect.value",
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter","CodeMirror-lint-markers"],
+            lint: true,
+            foldGutter: true,
+            foldOptions: {
+                rangeFinder: new CodeMirror.fold.combine(CodeMirror.fold.brace, CodeMirror.fold.comment)
+            },
+            extraKeys: {
+                "Ctrl-Q": function (cm) {
+                    cm.foldCode(cm.getCursor());
+                }
+            }
+        });
+    */
     // Funzione per abilitare l'autocompletamento Java
     function enableJavaAutocomplete() {
         CodeMirror.commands.autocomplete = function (cm) {
@@ -446,7 +433,7 @@ fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
     });
     localStorage.setItem('numero', '5');
     const storedClass = localStorage.getItem('selectedClass');
-    console.log("test",storedClass);
+    console.log("test", storedClass);
     //popup su creazione nuovo file
     function showPopup() {
         var popup = document.getElementById("popupSave");
@@ -554,12 +541,12 @@ fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
     }
 
 
-   
 
-    
+
+
     //evidenziare righe
     function highlightLines() {
-    
+
 
         const startLineY = 32; // Start line number
         const endLineY = 34; // End line number
@@ -581,7 +568,7 @@ fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
             { className: 'highlighted-green' } // CSS class to apply
         );
 
-        const startLineR =43; // Start line number
+        const startLineR = 43; // Start line number
         const endLineR = 51; // End line number
 
         // Apply highlighting to the range of lines
@@ -624,10 +611,10 @@ fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
         });
     }); 
     */
-   
 
 
-    
+
+
 </script>
 
 </html>
