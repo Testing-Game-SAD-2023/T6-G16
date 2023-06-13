@@ -9,8 +9,6 @@
 # T6-G16
 Requisiti Sull’Editor di Test Case
 
-# java-code-editor
-# Progetto SAD
 
 ## DONE:
   - Sintax highlighting
