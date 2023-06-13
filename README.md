@@ -5,9 +5,8 @@
 # Interazioni
 - T5 - G5: caricamento nell'editor "Class To Test" della classe da testare scelta dall'utente
 
-
-# T6-G16
-Requisiti Sull’Editor di Test Case
+#NB:
+- Il metodo _loadTemplate_ non serve, va eliminato!
 
 
 ## DONE:
