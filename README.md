@@ -3,7 +3,7 @@
 - La cartella _spring_integration_ contiene il progetto con le modifiche necessarie per integrare il componente con gli altri task
 
 # Interazioni
-- T5 - G5
+- T5 - G5: caricamento nell'editor "Class To Test" della classe da testare scelta dall'utente
 
 
 # T6-G16
