@@ -2,6 +2,8 @@
 - La cartella _spring_ contiene il componente Editor senza integrazione con i task
 - La cartella _spring_integration_ contiene il progetto con le modifiche necessarie per integrare il componente con gli altri task
 
+# Interazioni
+- T5 - G5
 
 
 # T6-G16
