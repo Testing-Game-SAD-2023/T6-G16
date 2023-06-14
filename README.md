@@ -26,11 +26,10 @@
   - popup salvataggio prima di chiudere o di fare nuovo file
   - Funzione ricerca parole nel codice
   - Generare getter, setter, toString
+  - Evidenziare righe in giallo, verde, rosso (con Jacoco)
 
 
   - Collegamanto caricamento classe con task T5-G5
  
 ## TO-DO:
-  - Evidenziare righe in giallo, verde, rosso (con Jacoco)
-  - Collegamento con database per salvataggio classe con task T4
   - Collegamento compilazione ed esecuzione con task T7
