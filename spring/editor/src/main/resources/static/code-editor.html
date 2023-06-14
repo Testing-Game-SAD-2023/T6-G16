@@ -123,10 +123,6 @@
             <div id="testClass" class="code pa" style="background-color: rgba(245, 245, 220, 0.14);">
                 <h2 style="color:#ffffff;">Class to Test</h2>
                 <div class="class-test"></div>
-
-
-                <button onclick="highlightLines()">Highlight Covered Lines</button>
-
             </div>
 
 
@@ -151,9 +147,6 @@
                 </button>
 
             </div>
-
-
-
         </div>
 
     </div>
@@ -165,17 +158,29 @@
                 <a class="nav-link active" aria-current="page" style="background-color:#ffffff;">
                     <h4>Output</h4>
                 </a>
+                <li class="nav-link active" aria-current="page" style="background-color:#ffffff;">
+                    <button class="button" onclick="clearErrors()">Clear Errors</button>
+                </li>
             </li>
+
         </ul>
+        <div id="error-console"></div>
+
+    </section>
+    <!-- 
         <div style="background-color: black;">
             <textarea id="output" name="output" class="w-100" rows="15" style="background-color: grey">
             </textarea>
         </div>
-    </section>
+
 
     </div>
     </div>
     </div>
+    -->
+
+
+
 </body>
 
 <script>
@@ -332,29 +337,73 @@ public class calcolatrice {
 
 
 
-
-    async function main() {
-        /*
-        let pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/" });
-        // Pyodide ready
-        output.value += "Ready!\n";
-        return pyodide;
-        */
-    };
-
-    let pyodideReadyPromise = main();
-
     function addToOutput(s) {
         output.value += ">>>" + s + "\n";
     }
 
     async function runJava() {
-        //Run code
+        //Run test
+          // Leggi il contenuto del file HTML di report Jacoco
+          fetch('calcolatrice.java.html')
+            .then(response => response.text())
+            .then(html => {
+                // Parsing del contenuto HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                // Trova l'elemento <pre> che contiene il codice sorgente Java
+                const preElement = doc.querySelector('pre.source.lang-java.linenums');
+
+                // Recupera tutte le righe di codice
+                const codeLines = preElement.querySelectorAll('span');
+
+                // Inizializza due array per le righe coperte e non coperte
+                const coveredLines = [];
+                const notCoveredLines = [];
+
+                // Itera sulle righe di codice e identifica quelle coperte e non coperte
+                codeLines.forEach(line => {
+                    const lineId = line.getAttribute('id');
+                    const lineNumber = parseInt(lineId.substring(1));
+
+                    if (line.classList.contains('fc')) {
+                        coveredLines.push(lineNumber);
+                    } else if (line.classList.contains('nc')) {
+                        notCoveredLines.push(lineNumber);
+                    }
+                });
+
+                // Evidenzia le righe coperte nell'editor CodeMirror
+                coveredLines.forEach(lineNumber => {
+                    testEditor.addLineClass(lineNumber - 1, 'background', 'covered-line');
+                });
+
+                // Evidenzia le righe non coperte nell'editor CodeMirror
+                notCoveredLines.forEach(lineNumber => {
+                    testEditor.addLineClass(lineNumber - 1, 'background', 'not-covered-line');
+                });
+            })
+            .catch(error => {
+                console.error('Si è verificato un errore durante il recupero del file HTML:', error);
+            });
     }
 
-    async function compileJava() {
-        //Compilation code
+    function compileJava() {
+        // Recupera l'elemento della console di errori
+        const errorConsole = document.getElementById('error-console');
+        // Visualizza un messaggio di errore nella console
+        const message = "messaggio di errore";
+        const errorElement = document.createElement('div');
+        errorElement.classList.add('error-message');
+        errorElement.textContent = message;
+        errorConsole.appendChild(errorElement);
     }
+
+    function clearErrors() {
+        const errorConsole = document.getElementById('error-console');
+        errorConsole.innerHTML = '';
+    }
+
 
 
 
@@ -529,97 +578,6 @@ public class calcolatrice {
         var currentCode = javaEditor.getValue();
         javaEditor.setValue(currentCode + "\n\n" + generatedCode);
     }
-
-
-    
-
-
-
-
-    //evidenziare righe
-    function highlightLines() {
-
-    // Leggi il contenuto del file HTML di report Jacoco
-    fetch('calcolatrice.java.html')
-        .then(response => response.text())
-        .then(html => {
-            // Parsing del contenuto HTML
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-
-            // Trova l'elemento <pre> che contiene il codice sorgente Java
-            const preElement = doc.querySelector('pre.source.lang-java.linenums');
-
-            // Recupera tutte le righe di codice
-            const codeLines = preElement.querySelectorAll('span');
-
-            // Inizializza due array per le righe coperte e non coperte
-            const coveredLines = [];
-            const notCoveredLines = [];
-
-            // Itera sulle righe di codice e identifica quelle coperte e non coperte
-            codeLines.forEach(line => {
-                const lineId = line.getAttribute('id');
-                const lineNumber = parseInt(lineId.substring(1));
-
-                if (line.classList.contains('fc')) {
-                    coveredLines.push(lineNumber);
-                } else if (line.classList.contains('nc')) {
-                    notCoveredLines.push(lineNumber);
-                }
-            });
-
-            // Evidenzia le righe coperte nell'editor CodeMirror
-            coveredLines.forEach(lineNumber => {
-                testEditor.addLineClass(lineNumber - 1, 'background', 'covered-line');
-            });
-
-            // Evidenzia le righe non coperte nell'editor CodeMirror
-            notCoveredLines.forEach(lineNumber => {
-                testEditor.addLineClass(lineNumber - 1, 'background', 'not-covered-line');
-            });
-        })
-        .catch(error => {
-            console.error('Si è verificato un errore durante il recupero del file HTML:', error);
-        });
-}
-
-
-
-
-
-                    /*
-                            const startLineY = 32; // Start line number
-                            const endLineY = 34; // End line number
-                    
-                            // Apply highlighting to the range of lines
-                            testEditor.markText(
-                                { line: startLineY - 1, ch: 0 }, // Start position (line index is 0-based)
-                                { line: endLineY, ch: 0 }, // End position (line index is 0-based)
-                                { className: 'highlighted-yellow' } // CSS class to apply
-                            );
-                    
-                            const startLineG = 22; // Start line number
-                            const endLineG = 24; // End line number
-                    
-                            // Apply highlighting to the range of lines
-                            testEditor.markText(
-                                { line: startLineG - 1, ch: 0 }, // Start position (line index is 0-based)
-                                { line: endLineG, ch: 0 }, // End position (line index is 0-based)
-                                { className: 'highlighted-green' } // CSS class to apply
-                            );
-                    
-                            const startLineR = 43; // Start line number
-                            const endLineR = 51; // End line number
-                    
-                            // Apply highlighting to the range of lines
-                            testEditor.markText(
-                                { line: startLineR - 1, ch: 0 }, // Start position (line index is 0-based)
-                                { line: endLineR, ch: 0 }, // End position (line index is 0-based)
-                                { className: 'highlighted-red' } // CSS class to apply
-                            );
-                            */
-
 
 </script>
 

@@ -190,3 +190,8 @@ select::-ms-expand {
   background-color: #fdd;
 }
 
+#error-console {
+  background-color: #808080;
+  height: 200px; /* Altezza desiderata */
+  overflow-y: auto; /* Scrolling verticale quando necessario */
+}
