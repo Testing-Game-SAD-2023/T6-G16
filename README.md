@@ -1,6 +1,7 @@
 # Cartelle
 - La cartella _spring_ contiene il componente Editor senza integrazione con i task
-- La cartella _spring_integration_ contiene il progetto con le modifiche necessarie per integrare il componente con gli altri task
+- La cartella _spring_integration_t5_ contiene il progetto con le modifiche necessarie per integrare il componente con gli il task T5
+- La cartella _spring_integration_t7_ contiene il progetto con le modifiche necessarie per integrare il componente con gli il task T7
 
 # Interazioni
 - T5 - G5: caricamento nell'editor "Class To Test" della classe da testare scelta dall'utente
