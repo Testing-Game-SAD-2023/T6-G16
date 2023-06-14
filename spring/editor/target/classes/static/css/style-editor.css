@@ -181,3 +181,12 @@ select::-ms-expand {
   display: flex;
   gap: 10px;
 }
+
+.covered-line {
+  background-color: #cfc;
+}
+
+.not-covered-line {
+  background-color: #fdd;
+}
+
