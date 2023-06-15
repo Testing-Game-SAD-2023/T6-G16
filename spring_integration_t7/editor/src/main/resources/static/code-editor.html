@@ -316,18 +316,6 @@ public class calcolatrice {
     CodeMirror.commands["selectAll"](javaEditor);
 
 
-    //caricamento classe
-    function loadTemplate(files) {
-        if (files.length == 1) {
-            document.title = escape(files[0].name);
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                javaEditor.setValue(e.target.result);
-            };
-            reader.readAsText(files[0]);
-        }
-    }
-
     //select theme
     themeSelect.addEventListener("change", function () {
         var selectedTheme = themeSelect.value;
@@ -336,10 +324,6 @@ public class calcolatrice {
     });
 
 
-
-    function addToOutput(s) {
-        output.value += ">>>" + s + "\n";
-    }
 
     async function runJava() {
         //Run test

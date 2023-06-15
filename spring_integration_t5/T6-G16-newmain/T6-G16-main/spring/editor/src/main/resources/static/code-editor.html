@@ -147,6 +147,9 @@
                 </button>
 
             </div>
+
+
+
         </div>
 
     </div>
@@ -178,9 +181,6 @@
     </div>
     </div>
     -->
-
-
-
 </body>
 
 <script>
@@ -197,25 +197,7 @@
     const myParamValue = urlParams.get('myParam');
 
     //editor per visualizzare classe di test
-
-    var testClass = `    package pacchetto;
-
-public class calcolatrice {
-    
-    public int add(int a, int b) {
-        return a+b;
-    }
-    
-    public int sub(int a, int b) {
-        return a-b;
-    }
-    
-    public int multiply(int a, int b) {
-        return a*b;
-    }
-    
-}
-`;
+    var testClass = ""; // Valore di default
 
     var testEditor = CodeMirror(document.querySelector(".editor .code .class-test"), {
         mode: "text/x-java",
@@ -227,6 +209,13 @@ public class calcolatrice {
         readOnly: true,
     });
 
+    fetch(`http://localhost:8090/classut_repo/downloadClass/${myParamValue}`)
+        .then(response => response.text())
+        .then(data => {
+            testClass = data; // Aggiorna il valore di testClass con i dati della risposta fetch
+            testEditor.setValue(testClass); // Aggiorna il valore dell'editor con i nuovi dati
+        })
+        .catch(error => console.error(error));
 
     CodeMirror.commands["selectAll"](testEditor);
     testEditor.setSize("100%", "450px");
@@ -325,54 +314,13 @@ public class calcolatrice {
 
 
 
+
     async function runJava() {
-        //Run test
-          // Leggi il contenuto del file HTML di report Jacoco
-          fetch('calcolatrice.java.html')
-            .then(response => response.text())
-            .then(html => {
-                // Parsing del contenuto HTML
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-
-                // Trova l'elemento <pre> che contiene il codice sorgente Java
-                const preElement = doc.querySelector('pre.source.lang-java.linenums');
-
-                // Recupera tutte le righe di codice
-                const codeLines = preElement.querySelectorAll('span');
-
-                // Inizializza due array per le righe coperte e non coperte
-                const coveredLines = [];
-                const notCoveredLines = [];
-
-                // Itera sulle righe di codice e identifica quelle coperte e non coperte
-                codeLines.forEach(line => {
-                    const lineId = line.getAttribute('id');
-                    const lineNumber = parseInt(lineId.substring(1));
-
-                    if (line.classList.contains('fc')) {
-                        coveredLines.push(lineNumber);
-                    } else if (line.classList.contains('nc')) {
-                        notCoveredLines.push(lineNumber);
-                    }
-                });
-
-                // Evidenzia le righe coperte nell'editor CodeMirror
-                coveredLines.forEach(lineNumber => {
-                    testEditor.addLineClass(lineNumber - 1, 'background', 'covered-line');
-                });
-
-                // Evidenzia le righe non coperte nell'editor CodeMirror
-                notCoveredLines.forEach(lineNumber => {
-                    testEditor.addLineClass(lineNumber - 1, 'background', 'not-covered-line');
-                });
-            })
-            .catch(error => {
-                console.error('Si è verificato un errore durante il recupero del file HTML:', error);
-            });
+       //Run test
+         
     }
 
-    function compileJava() {
+    async function compileJava() {
         // Recupera l'elemento della console di errori
         const errorConsole = document.getElementById('error-console');
         // Visualizza un messaggio di errore nella console
@@ -387,8 +335,6 @@ public class calcolatrice {
         const errorConsole = document.getElementById('error-console');
         errorConsole.innerHTML = '';
     }
-
-
 
 
     //Salvataggio classe java
@@ -562,6 +508,7 @@ public class calcolatrice {
         var currentCode = javaEditor.getValue();
         javaEditor.setValue(currentCode + "\n\n" + generatedCode);
     }
+
 
 </script>
 
