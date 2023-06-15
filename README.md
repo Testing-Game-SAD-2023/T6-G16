@@ -6,7 +6,7 @@
 # Interazioni
 - T5 - G5: caricamento nell'editor "Class To Test" della classe da testare scelta dall'utente
 - T1 - G20: database delle classi
-- T7 - G23: recupero file di copertura jacoco in formato html (non c'è il collegamento sul server)
+- T7 - G23: prototipo funzioni run e compile tramite i file da loro realizzati (non c'è il collegamento sul server)
 
 # Installazione
 Per eseguire la cartella 
