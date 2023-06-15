@@ -12,3 +12,5 @@
 1. Per eseguire la cartella contenente solo il progetto _spring_ è necessario avere la versione JAVA JDK-20 e poi eseguire il progetto Spring chiamato __editor__
 2. Per eseguire la cartella _spring_integration_t5_ è necessario eseguire il progetto Spring __classut_repo__ (T1-G20) ed il progetto Spring __studentsystem__ (T5-G5). Successivamente è neccesario eseguire il progetto __editor__ (T6-G16)
     - NB: per poter visualizzare le classi è necessario caricare delle classi java nel file __upload.html__ presente nella cartella _progetto/classi/T1-G20/upload.html_
+
+# Docker
