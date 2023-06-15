@@ -158,9 +158,9 @@
                 <a class="nav-link active" aria-current="page" style="background-color:#ffffff;">
                     <h4>Output</h4>
                 </a>
-                <li class="nav-link active" aria-current="page" style="background-color:#ffffff;">
-                    <button class="button" onclick="clearErrors()">Clear Errors</button>
-                </li>
+            <li class="nav-link active" aria-current="page" style="background-color:#ffffff;">
+                <button class="button" onclick="clearErrors()">Clear Errors</button>
+            </li>
             </li>
 
         </ul>
@@ -325,10 +325,36 @@ public class calcolatrice {
 
 
 
+    function getCoverage() {
+        fetch('http://localhost:8080/compexec?urlClass=test&urlTestClass=test2')  // Sostituisci con il percorso effettivo del tuo file JSON
+            .then(response => response.json())
+            .then(data => {
+                // Accedi al valore specifico desiderato
+                return pathCoverage = data.pathCoverage;
+            })
+            .catch(error => {
+                console.error('Errore durante la lettura del file JSON:', error);
+            });
+    }
+
+    function getErrors() {
+        fetch('http://localhost:8080/compexec?urlClass=test&urlTestClass=test2')  // Sostituisci con il percorso effettivo del tuo file JSON
+            .then(response => response.json())
+            .then(data => {
+                // Accedi al valore specifico desiderato
+                return resMessage = data.resMessage;
+            })
+            .catch(error => {
+                console.error('Errore durante la lettura del file JSON:', error);
+            });
+    }
+
     async function runJava() {
+        // sendClass(); //funzione che invia la classe da testare al T7 per ricevere la coverage per quella classe
+        var url = getCoverage();
         //Run test
-          // Leggi il contenuto del file HTML di report Jacoco
-          fetch('calcolatrice.java.html')
+        // Leggi il contenuto del file HTML di report Jacoco
+        fetch(url)
             .then(response => response.text())
             .then(html => {
                 // Parsing del contenuto HTML
@@ -373,13 +399,15 @@ public class calcolatrice {
     }
 
     function compileJava() {
+        var resMessage = getErrors();
         // Recupera l'elemento della console di errori
         const errorConsole = document.getElementById('error-console');
         // Visualizza un messaggio di errore nella console
-        const message = "messaggio di errore";
+        //const message = "messaggio di errore";
         const errorElement = document.createElement('div');
         errorElement.classList.add('error-message');
-        errorElement.textContent = message;
+        //errorElement.textContent = message;
+        errorElement.textContent = resMessage;
         errorConsole.appendChild(errorElement);
     }
 
