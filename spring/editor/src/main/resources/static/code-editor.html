@@ -158,9 +158,9 @@
                 <a class="nav-link active" aria-current="page" style="background-color:#ffffff;">
                     <h4>Output</h4>
                 </a>
-                <li class="nav-link active" aria-current="page" style="background-color:#ffffff;">
-                    <button class="button" onclick="clearErrors()">Clear Errors</button>
-                </li>
+            <li class="nav-link active" aria-current="page" style="background-color:#ffffff;">
+                <button class="button" onclick="clearErrors()">Clear Errors</button>
+            </li>
             </li>
 
         </ul>
@@ -326,8 +326,8 @@ public class calcolatrice {
 
     async function runJava() {
         //Run test
-          // Leggi il contenuto del file HTML di report Jacoco
-          fetch('calcolatrice.java.html')
+        // Leggi il contenuto del file HTML di report Jacoco
+        fetch('calcolatrice.java.html')
             .then(response => response.text())
             .then(html => {
                 // Parsing del contenuto HTML
@@ -374,13 +374,30 @@ public class calcolatrice {
     function compileJava() {
         // Recupera l'elemento della console di errori
         const errorConsole = document.getElementById('error-console');
-        // Visualizza un messaggio di errore nella console
-        const message = "messaggio di errore";
+
+        fetch('ex_res.txt')
+  .then(response => response.text())
+  .then(text => {
+    // Visualizza un messaggio di errore nella console
+    const message = "messaggio di errore";
         const errorElement = document.createElement('div');
         errorElement.classList.add('error-message');
-        errorElement.textContent = message;
+        errorElement.textContent = text;
         errorConsole.appendChild(errorElement);
-    }
+  })
+  .catch(error => {
+    console.error('Si è verificato un errore durante il recupero del file TXT:', error);
+  });
+
+    
+        
+  }
+
+
+       
+
+    
+    
 
     function clearErrors() {
         const errorConsole = document.getElementById('error-console');
