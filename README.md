@@ -6,32 +6,7 @@
 # Interazioni
 - T5 - G5: caricamento nell'editor "Class To Test" della classe da testare scelta dall'utente
 - T1 - G20: database delle classi
+- T7 - G23: recupero file di copertura jacoco in formato html (non c'è il collegamento sul server)
 
-# NB:
-- Il metodo _loadTemplate_ non serve, va eliminato!
-
-
-## DONE:
-  - Sintax highlighting
-  - Autocompletamento del codice
-  - Indentazione
-  - Salvataggio classe di test prodotta (in locale x ora)
-  - Caricamento template (da locale x ora)
-  - Caricamento classe da testare
-  - Chiusura automatica delle parentesi
-  - Aggiungere console per compilatore 
-  - CSS: Realizzazione GUI finale
-  - Possibilità di cambiare tema
-  - Code Folding (raggruppare codice) 
-  - Salvataggio versioni (ogni 30 secondi)
-  - dot notation
-  - popup salvataggio prima di chiudere o di fare nuovo file
-  - Funzione ricerca parole nel codice
-  - Generare getter, setter, toString
-  - Evidenziare righe in giallo, verde, rosso (con Jacoco)
-
-
-  - Collegamanto caricamento classe con task T5-G5
- 
-## TO-DO:
-  - Collegamento compilazione ed esecuzione con task T7
+# Installazione
+Per eseguire la cartella 
