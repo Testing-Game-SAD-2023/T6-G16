@@ -14,3 +14,7 @@
     - NB: per poter visualizzare le classi è necessario caricare delle classi java tramite il file __upload.html__ presente nella cartella _progetto/classi/T1-G20/upload.html_
 
 # Docker
+1. Far partire il server Docker
+2. Entrare da terminale nella cartella _editor_ 
+3. Fare il build in un container del progetto jar con il seguente comando: _docker build . -t editor:1.0_
+4. Quindi eseguire il progetto sul container Docker con il seguente comando: _docker run -p 8084:8190 editor:1.0_
