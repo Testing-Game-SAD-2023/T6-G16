@@ -310,13 +310,15 @@ public class calcolatrice {
 
     CodeMirror.commands["selectAll"](javaEditor);
 
-
+    changeTheme()
     //select theme
-    themeSelect.addEventListener("change", function () {
-        var selectedTheme = themeSelect.value;
-        testEditor.setOption("theme", selectedTheme);
-        javaEditor.setOption("theme", selectedTheme);
-    });
+    function changeTheme() {
+        themeSelect.addEventListener("change", function () {
+            var selectedTheme = themeSelect.value;
+            testEditor.setOption("theme", selectedTheme);
+            javaEditor.setOption("theme", selectedTheme);
+        });
+    }
 
 
     async function runJava() {
@@ -371,28 +373,28 @@ public class calcolatrice {
         const errorConsole = document.getElementById('error-console');
 
         fetch('ex_res.txt')
-  .then(response => response.text())
-  .then(text => {
-    // Visualizza un messaggio di errore nella console
-    const message = "messaggio di errore";
-        const errorElement = document.createElement('div');
-        errorElement.classList.add('error-message');
-        errorElement.textContent = text;
-        errorConsole.appendChild(errorElement);
-  })
-  .catch(error => {
-    console.error('Si è verificato un errore durante il recupero del file TXT:', error);
-  });
-
-    
-        
-  }
+            .then(response => response.text())
+            .then(text => {
+                // Visualizza un messaggio di errore nella console
+                const message = "messaggio di errore";
+                const errorElement = document.createElement('div');
+                errorElement.classList.add('error-message');
+                errorElement.textContent = text;
+                errorConsole.appendChild(errorElement);
+            })
+            .catch(error => {
+                console.error('Si è verificato un errore durante il recupero del file TXT:', error);
+            });
 
 
-       
 
-    
-    
+    }
+
+
+
+
+
+
 
     function clearErrors() {
         const errorConsole = document.getElementById('error-console');
