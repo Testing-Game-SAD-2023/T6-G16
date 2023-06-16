@@ -161,9 +161,9 @@
                 <a class="nav-link active" aria-current="page" style="background-color:#ffffff;">
                     <h4>Output</h4>
                 </a>
-                <li class="nav-link active" aria-current="page" style="background-color:#ffffff;">
-                    <button class="button" onclick="clearErrors()">Clear Errors</button>
-                </li>
+            <li class="nav-link active" aria-current="page" style="background-color:#ffffff;">
+                <button class="button" onclick="clearErrors()">Clear Errors</button>
+            </li>
             </li>
 
         </ul>
@@ -316,19 +316,71 @@
 
 
     async function runJava() {
-       //Run test
-         
+        //Run test
+        //Run test
+        // Leggi il contenuto del file HTML di report Jacoco
+        fetch('calcolatrice.java.html')
+            .then(response => response.text())
+            .then(html => {
+                // Parsing del contenuto HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                // Trova l'elemento <pre> che contiene il codice sorgente Java
+                const preElement = doc.querySelector('pre.source.lang-java.linenums');
+
+                // Recupera tutte le righe di codice
+                const codeLines = preElement.querySelectorAll('span');
+
+                // Inizializza due array per le righe coperte e non coperte
+                const coveredLines = [];
+                const notCoveredLines = [];
+
+                // Itera sulle righe di codice e identifica quelle coperte e non coperte
+                codeLines.forEach(line => {
+                    const lineId = line.getAttribute('id');
+                    const lineNumber = parseInt(lineId.substring(1));
+
+                    if (line.classList.contains('fc')) {
+                        coveredLines.push(lineNumber);
+                    } else if (line.classList.contains('nc')) {
+                        notCoveredLines.push(lineNumber);
+                    }
+                });
+
+                // Evidenzia le righe coperte nell'editor CodeMirror
+                coveredLines.forEach(lineNumber => {
+                    testEditor.addLineClass(lineNumber - 1, 'background', 'covered-line');
+                });
+
+                // Evidenzia le righe non coperte nell'editor CodeMirror
+                notCoveredLines.forEach(lineNumber => {
+                    testEditor.addLineClass(lineNumber - 1, 'background', 'not-covered-line');
+                });
+            })
+            .catch(error => {
+                console.error('Si è verificato un errore durante il recupero del file HTML:', error);
+            });
+
     }
 
     async function compileJava() {
         // Recupera l'elemento della console di errori
         const errorConsole = document.getElementById('error-console');
-        // Visualizza un messaggio di errore nella console
-        const message = "messaggio di errore";
-        const errorElement = document.createElement('div');
-        errorElement.classList.add('error-message');
-        errorElement.textContent = message;
-        errorConsole.appendChild(errorElement);
+
+        fetch('ex_res.txt')
+            .then(response => response.text())
+            .then(text => {
+                // Visualizza un messaggio di errore nella console
+                const message = "messaggio di errore";
+                const errorElement = document.createElement('div');
+                errorElement.classList.add('error-message');
+                errorElement.textContent = text;
+                errorConsole.appendChild(errorElement);
+            })
+            .catch(error => {
+                console.error('Si è verificato un errore durante il recupero del file TXT:', error);
+            });
     }
 
     function clearErrors() {

@@ -323,7 +323,40 @@ public class calcolatrice {
         javaEditor.setOption("theme", selectedTheme);
     });
 
+    /*
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://localhost:8080/compexec', true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        var html = xhr.responseText;
+      }
+    };
+    xhr.send();
+    */
 
+    function sendClass() {
+        var textToWrite = javaEditor.getValue();
+        var textFileAsBlob = new Blob([textToWrite], {
+            type: "text/plain;charset=utf-8"
+        });
+
+        var fileNameToSaveAs = "testClass.java";
+
+        var downloadLink = document.createElement("a");
+        downloadLink.download = fileNameToSaveAs;
+        downloadLink.innerHTML = "Download File";
+
+        if (window.webkitURL != null) {
+            downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+        } else {
+            downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+            downloadLink.onclick = destroyClickedElement;
+            downloadLink.style.display = "none";
+            document.body.appendChild(downloadLink);
+        }
+
+        downloadLink.click();
+    }
 
     function getCoverage() {
         fetch('http://localhost:8080/compexec?urlClass=test&urlTestClass=test2')  // Sostituisci con il percorso effettivo del tuo file JSON
@@ -350,7 +383,7 @@ public class calcolatrice {
     }
 
     async function runJava() {
-        // sendClass(); //funzione che invia la classe da testare al T7 per ricevere la coverage per quella classe
+       // sendClass();
         var url = getCoverage();
         //Run test
         // Leggi il contenuto del file HTML di report Jacoco
