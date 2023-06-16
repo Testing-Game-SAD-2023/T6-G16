@@ -1,4 +1,3 @@
-
 FROM openjdk:20-jdk-slim
 
 
