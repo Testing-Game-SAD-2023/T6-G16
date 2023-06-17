@@ -212,7 +212,6 @@
         })
         .catch(error => console.error(error));
 
-    CodeMirror.commands["selectAll"](testEditor);
     testEditor.setSize("100%", "450px");
 
     //caricamento classe
@@ -367,9 +366,7 @@
             .then(response => response.text())
             .then(text => {
                 // Visualizza un messaggio di errore nella console
-                const message = "messaggio di errore";
                 const errorElement = document.createElement('div');
-                errorElement.classList.add('error-message');
                 errorElement.textContent = text;
                 errorConsole.appendChild(errorElement);
             })

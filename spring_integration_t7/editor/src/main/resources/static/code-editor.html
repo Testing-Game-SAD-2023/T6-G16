@@ -222,7 +222,6 @@ public class calcolatrice {
     });
 
 
-    CodeMirror.commands["selectAll"](testEditor);
     testEditor.setSize("100%", "450px");
 
     //caricamento classe
@@ -430,9 +429,7 @@ public class calcolatrice {
         // Recupera l'elemento della console di errori
         const errorConsole = document.getElementById('error-console');
         // Visualizza un messaggio di errore nella console
-        //const message = "messaggio di errore";
         const errorElement = document.createElement('div');
-        errorElement.classList.add('error-message');
         //errorElement.textContent = message;
         errorElement.textContent = resMessage;
         errorConsole.appendChild(errorElement);
