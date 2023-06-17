@@ -140,6 +140,12 @@
                         construction
                     </span>
                 </button>
+                <button type="button" class="btn btn-success" onclick="compileJava()" title="Debug Code">
+                    <span class="material-symbols-outlined">
+                        grading
+                    </span>
+                </button>
+
             </div>
         </div>
 
@@ -220,9 +226,6 @@ public class calcolatrice {
         theme: "themeSelect.value",
         readOnly: true,
     });
-
-
-    CodeMirror.commands["selectAll"](testEditor);
     testEditor.setSize("100%", "450px");
 
     //caricamento classe
@@ -317,40 +320,7 @@ public class calcolatrice {
         javaEditor.setOption("theme", selectedTheme);
     });
 
-    /*
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://localhost:8080/compexec', true);
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        var html = xhr.responseText;
-      }
-    };
-    xhr.send();
-    */
 
-    function sendClass() {
-        var textToWrite = javaEditor.getValue();
-        var textFileAsBlob = new Blob([textToWrite], {
-            type: "text/plain;charset=utf-8"
-        });
-
-        var fileNameToSaveAs = "testClass.java";
-
-        var downloadLink = document.createElement("a");
-        downloadLink.download = fileNameToSaveAs;
-        downloadLink.innerHTML = "Download File";
-
-        if (window.webkitURL != null) {
-            downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
-        } else {
-            downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
-            downloadLink.onclick = destroyClickedElement;
-            downloadLink.style.display = "none";
-            document.body.appendChild(downloadLink);
-        }
-
-        downloadLink.click();
-    }
 
     function getCoverage() {
         fetch('http://localhost:8080/compexec?urlClass=test&urlTestClass=test2')  // Sostituisci con il percorso effettivo del tuo file JSON
@@ -377,7 +347,7 @@ public class calcolatrice {
     }
 
     async function runJava() {
-       // sendClass();
+        sendClass();                     //funzione che invia la classe da testare al T7 per ricevere la coverage per quella classe
         var url = getCoverage();
         //Run test
         // Leggi il contenuto del file HTML di report Jacoco
@@ -427,13 +397,7 @@ public class calcolatrice {
 
     function compileJava() {
         var resMessage = getErrors();
-        // Recupera l'elemento della console di errori
-        const errorConsole = document.getElementById('error-console');
-        // Visualizza un messaggio di errore nella console
-        //const message = "messaggio di errore";
         const errorElement = document.createElement('div');
-        errorElement.classList.add('error-message');
-        //errorElement.textContent = message;
         errorElement.textContent = resMessage;
         errorConsole.appendChild(errorElement);
     }
